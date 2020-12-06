@@ -23,15 +23,7 @@
           <v-form>
             <v-container class="py-0">
               <v-row>
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    label="Company (disabled)"
-                    disabled
-                  />
-                </v-col>
+              
 
                 <v-col
                   cols="12"
@@ -45,7 +37,7 @@
 
                 <v-col
                   cols="12"
-                  md="4"
+                  md="8"
                 >
                   <v-text-field
                     label="Email Address"
@@ -86,6 +78,7 @@
                 >
                   <v-text-field
                     label="City"
+                    disabled
                     class="purple-input"
                   />
                 </v-col>
@@ -96,11 +89,12 @@
                 >
                   <v-text-field
                     label="Country"
+                    disabled
                     class="purple-input"
                   />
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   md="4"
                 >
@@ -108,6 +102,7 @@
                     class="purple-input"
                     label="Postal Code"
                     type="number"
+                    disabled
                   />
                 </v-col>
 
@@ -129,7 +124,7 @@
                   >
                     Update Profile
                   </v-btn>
-                </v-col>
+                </v-col> -->
               </v-row>
             </v-container>
           </v-form>

@@ -77,17 +77,17 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-badge
+          <!-- <v-badge
             color="red"
             overlap
             bordered
           >
-            <template v-slot:badge>
+           <template v-slot:badge>
               <span>5</span>
-            </template>
+            </template> -->
 
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
+            <!-- <v-icon>mdi-bell</v-icon> -->
+          <!-- </v-badge> --> 
         </v-btn>
       </template>
 
@@ -161,13 +161,7 @@
     },
 
     data: () => ({
-      notifications: [
-        'Mike John Responded to your email',
-        'You have 5 new tasks',
-        'You\'re now friends with Andrew',
-        'Another Notification',
-        'Another one',
-      ],
+      notifications: [],
     }),
 
     computed: {

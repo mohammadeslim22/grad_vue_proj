@@ -27,7 +27,7 @@
         :max-height="icon ? 90 : undefined"
         :width="icon ? 'auto' : '100%'"
         elevation="6"
-        @click="alert(1)"
+        @click="addTransaction"
         class="text-start v-card--material__heading mb-n6"
         dark
       >
@@ -135,6 +135,11 @@
         return Boolean(this.$slots.heading || (this.title && this.icon))
       },
     },
+    methods:{
+      addTransaction(){
+        this.$emit("sheetclick")
+      }
+    }
   }
 </script>
 

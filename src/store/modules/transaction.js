@@ -20,6 +20,7 @@ const actions = {
         commit('setTransactions', response.data.data);
     },
     async store({ commit }, data) {
+        console.log(data)
         const response = await this.$axios.post(
             'transactions',
             data

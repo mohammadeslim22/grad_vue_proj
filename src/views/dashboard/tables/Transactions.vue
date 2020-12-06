@@ -9,8 +9,22 @@
       icon="mdi-clipboard-text"
       title="Transactions"
       class="px-5 py-3"
+      @sheetclick="test"
     >
-      <v-text-field label="Car No."></v-text-field>
+      <v-row>
+        <v-text-field v-model="carNo.carNumber" label="Car No."></v-text-field>
+        <v-radio-group v-model="carNo.transactionType" row>
+          <v-radio
+            v-for="n in [0,1]"
+            :key="n"
+            :label="n==0?'Entry':'Exit'"
+            :value="n"
+
+
+          ></v-radio>
+        </v-radio-group>
+      </v-row>
+
       <v-data-table
         :headers="headers"
         :items="transactions"
@@ -81,6 +95,10 @@ export default {
   data() {
     return {
       options: {},
+      carNo: {
+        carNumber: "",
+        transactionType:0
+      },
       headers: [
         {
           text: "Transaction No.",
@@ -112,6 +130,12 @@ export default {
         this.$store.dispatch("transaction/index", this.options);
       },
       deep: true,
+    },
+  },
+  methods: {
+    test() {
+      this.$store.dispatch("transaction/store", this.carNo);
+      this.carNo.carNumber=""
     },
   },
 };
