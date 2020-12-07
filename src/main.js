@@ -38,6 +38,7 @@ new Vue({
 if (localStorage.user_data) {
   console.log("a7aa")
   store.state.auth.logged = true
+  store.state.auth.user=JSON.parse(localStorage.user_data).user
   // auth.state.logged = true;
   // console.log(auth.state.logged)
   store.dispatch("auth/load", JSON.parse(localStorage.user_data).token);

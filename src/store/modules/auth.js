@@ -8,36 +8,38 @@ const getters = {
     all: state => state.posts
 };
 const actions = {
-    login({ commit }, data) {
+    async login({ commit }, data) {
         this.state.overlay = true;
         console.log(data)
-        this.$axios.post('users/login', data).then((response) => {
-            let user = response.data.user;
-            let data = response.data;
-            if (response.data.user) {
-                console.log(data);
-                commit('setUser', user);
-                commit('setLogged', true);
-                this.state.overlay = false;
-                localStorage.user_data = JSON.stringify({
-                    user: data.user,
-                    token: data.token
-                });
-                this.dispatch("auth/load",data.token)
-                // let refresh_time = data.token.expires_in * 1000;
-                // refresh_time -= parseInt(refresh_time / 4);
-                // setTimeout(() => {
-                //     this.dispatch('refresh');
-                // }, refresh_time);
-            } else {
+        let response = await this.$axios.post('users/login', data)
+        let user = response.data.user;
+        let ddata = response.data;
+        if (user) {
+            console.log(ddata);
+            commit('setUser', ddata);
+            commit('setLogged', true);
+            this.state.overlay = false;
+            localStorage.clear()
+            localStorage.user_data = JSON.stringify({
+                user: user,
+                token: ddata.token
+            });
+            this.dispatch("auth/load", ddata.token)
+            // let refresh_time = data.token.expires_in * 1000;
+            // refresh_time -= parseInt(refresh_time / 4);
+            // setTimeout(() => {
+            //     this.dispatch('refresh');
+            // }, refresh_time);
+        } else {
 
-            }
+        }
 
-        })
+
     },
-    me({ commit }) {
-        this.$axios.get('/auth/me').then((response) => {
-            commit('setUser', response.data);
+    update({ commit }, upUser) {
+        console.log(upUser)
+        this.$axios.post(`users/:${upUser.id}`, upUser).then((response) => {
+            commit('setUser', user);
         }).catch(err => {
             console.log(err);
         });

@@ -45,7 +45,7 @@
       </v-simple-table> -->
     </base-material-card>
 
-    <div class="py-3" />
+    <!-- <div class="py-3" />
     <base-material-card
       color="success"
       dark
@@ -78,7 +78,7 @@
           </tr>
         </tbody>
       </v-simple-table>
-    </base-material-card>
+    </base-material-card> -->
   </v-container>
 </template>
 
