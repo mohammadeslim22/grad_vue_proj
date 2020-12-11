@@ -102,7 +102,7 @@
         </base-material-card>
       </v-col>
 
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="4" v-if="user.role==1">
         <base-material-card
           class="v-card-profile"
           avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
