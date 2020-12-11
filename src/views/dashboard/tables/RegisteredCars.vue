@@ -7,7 +7,7 @@
 
     <base-material-card
       icon="mdi-clipboard-text"
-      title="Cars at the Moment"
+      title="Registerd Cars"
       class="px-5 py-3"
     >
       <v-data-table
