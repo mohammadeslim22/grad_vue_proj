@@ -3,10 +3,11 @@
     dashboard
     <v-row>
       <v-col cols="12" lg="4">
-        <base-material-chart-card
+        <base-material-chart-card v-if="loaded"
           :data="emailsSubscriptionChart.data"
           :options="emailsSubscriptionChart.options"
           :responsive-options="emailsSubscriptionChart.responsiveOptions"
+          
           color="#E91E63"
           hover-reveal
           type="Bar"
@@ -33,23 +34,23 @@
             </v-tooltip>
           </template>
 
-          <h4 class="card-title font-weight-light mt-2 ml-2">Website Views</h4>
+          <h4 class="card-title font-weight-light mt-2 ml-2">Parking Views</h4>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Campaign Performance
+            Parking visits During year
           </p>
 
           <template v-slot:actions>
             <v-icon class="mr-1" small> mdi-clock-outline </v-icon>
             <span class="caption grey--text font-weight-light"
-              >updated 10 minutes ago</span
+              >updated 1 minutes ago</span
             >
           </template>
         </base-material-chart-card>
       </v-col>
 
       <v-col cols="12" lg="4">
-        <base-material-chart-card
+        <base-material-chart-card v-if="loaded"
           :data="dailySalesChart.data"
           :options="dailySalesChart.options"
           color="success"
@@ -78,24 +79,24 @@
             </v-tooltip>
           </template>
 
-          <h4 class="card-title font-weight-light mt-2 ml-2">Daily Sales</h4>
+          <h4 class="card-title font-weight-light mt-2 ml-2">Weekly revenue</h4>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
             <v-icon color="green" small> mdi-arrow-up </v-icon>
-            <span class="green--text">55%</span>&nbsp; increase in today's sales
+            <span class="green--text"> Week </span> &nbsp;  parking visits average 
           </p>
 
           <template v-slot:actions>
             <v-icon class="mr-1" small> mdi-clock-outline </v-icon>
             <span class="caption grey--text font-weight-light"
-              >updated 4 minutes ago</span
+              >updated Just now</span
             >
           </template>
         </base-material-chart-card>
       </v-col>
 
       <v-col cols="12" lg="4">
-        <base-material-chart-card
+        <base-material-chart-card v-if="loaded"
           :data="dataCompletedTasksChart.data"
           :options="dataCompletedTasksChart.options"
           hover-reveal
@@ -125,17 +126,17 @@
           </template>
 
           <h3 class="card-title font-weight-light mt-2 ml-2">
-            Completed Tasks
+           Parking Visits Average
           </h3>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Last Campaign Performance
+            daily Visits Average
           </p>
 
           <template v-slot:actions>
             <v-icon class="mr-1" small> mdi-clock-outline </v-icon>
             <span class="caption grey--text font-weight-light"
-              >campaign sent 26 minutes ago</span
+              >average based on 3 hours division</span
             >
           </template>
         </base-material-chart-card>
@@ -144,9 +145,9 @@
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="info"
-          icon="mdi-twitter"
-          title="Followers"
-          value="+245"
+          icon="mdi-truck"
+          title="Registerd Cars"
+          :value="carNo"
           sub-icon="mdi-clock"
           sub-text="Just Updated"
         />
@@ -156,10 +157,10 @@
         <base-material-stats-card
           color="primary"
           icon="mdi-poll"
-          title="Website Visits"
-          value="75.521"
+          title="Parking Today Visits"
+          :value="visits"
           sub-icon="mdi-tag"
-          sub-text="Tracked from Google Analytics"
+          sub-text="Tracked from IUG Analytics"
         />
       </v-col>
 
@@ -168,9 +169,9 @@
           color="success"
           icon="mdi-store"
           title="Revenue"
-          value="$ 34,245"
+          :value="`$`+revenue"
           sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
+          sub-text="This year"
         />
       </v-col>
 
@@ -260,6 +261,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "DashboardDashboard",
 
@@ -268,7 +271,7 @@ export default {
       dailySalesChart: {
         data: {
           labels: ["M", "T", "W", "T", "F", "S", "S"],
-          series: [[12, 17, 7, 17, 23, 18, 38]],
+         // series: [[12, 17, 7, 17, 23, 18, 38]],
         },
         options: {
           lineSmooth: this.$chartist.Interpolation.cardinal({
@@ -319,8 +322,9 @@ export default {
             "No",
             "De",
           ],
+          
           series: [
-            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
+         //   [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
           ],
         },
         options: {
@@ -328,7 +332,7 @@ export default {
             showGrid: false,
           },
           low: 0,
-          high: 1000,
+          high: 10,
           chartPadding: {
             top: 0,
             right: 5,
@@ -477,7 +481,30 @@ export default {
       },
     };
   },
+computed:{
+    ...mapState("statistics", {
+      myseries: (state) => state.transactions,
+      invoices:(state) => state.invoices,
+      carNo:(state) => state.carsNo,
+      visits:(state)=>state.parking_visits,
+      revenue:(state)=>state.total_revenue,
+      loaded:(state)=> state.loaded
+    }),
+},
+  mounted() {
+    this.$store.dispatch("statistics/index");
+  },
+  watch: {
+    loaded: {
+      handler() {
+        this.emailsSubscriptionChart.data.series[0]=this.myseries;
+           this.dailySalesChart.data.series[0]=this.invoices;
 
+        this.$router.push("/");
+      },
+      deep: true,
+    },
+  },
   methods: {
     complete(index) {
       this.list[index] = !this.list[index];
@@ -489,7 +516,7 @@ export default {
     if (this.$store.state.auth.logged) {
       //  this.$router.push("/");
     } else {
-      console.log("ليش بتخش هتن ي ا حيوان ")
+      console.log("ليش بتخش هان يا حيوان ")
       this.$router.push("/login");
     }
   },

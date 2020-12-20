@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
   export default {
     name: 'MaterialChartCard',
 
@@ -63,6 +64,25 @@
         validator: v => ['Bar', 'Line', 'Pie'].includes(v),
       },
     },
+    computed:{
+    ...mapState("statistics", {
+      myseries: (state) => state.transactions,
+      loaded:(state)=> state.loaded
+    }),
+},
+  watch: {
+    loaded: {
+      handler() {
+        console.log(this.emailsSubscriptionChart.data.series[0])
+        console.log("this is before injection emailsSubscriptionChart.data")
+        this.emailsSubscriptionChart.data.series[0]=this.myseries;
+        console.log(this.emailsSubscriptionChart.data.series[0])
+        console.log("watcher is watching ")
+        this.$router.push("/");
+      },
+      deep: true,
+    },
+  },
   }
 </script>
 

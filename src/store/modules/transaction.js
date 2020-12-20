@@ -1,6 +1,7 @@
 const state = {
     Transactions: [],
     loaded: false,
+    timeLine:[],
     count: 0
 };
 
@@ -52,6 +53,10 @@ const actions = {
         console.log(response.data);
 
         commit('updateTransaction', response.data);
+    },
+    async timeLine({commit},carNo){
+        const response = await this.$axios.get('transactions/timeline',{params: carNo})
+        commit('setTimeLine',response.data)
     }
 };
 
@@ -67,7 +72,8 @@ const mutations = {
         if (index !== -1) {
             state.Transactions.splice(index, 1, updTransaction);
         }
-    }
+    },
+    setTimeLine:(state, timeline)=>{state.timeLine=timeline}
 };
 
 export default {

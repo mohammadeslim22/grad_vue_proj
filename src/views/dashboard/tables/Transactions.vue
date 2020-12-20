@@ -134,6 +134,7 @@ export default {
   },
   methods: {
     test() {
+      this.carNo.carNumber.trim()
       this.$store.dispatch("transaction/store", this.carNo);
       this.carNo.carNumber=""
     },

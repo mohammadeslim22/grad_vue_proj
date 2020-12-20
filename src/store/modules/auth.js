@@ -68,6 +68,10 @@ const actions = {
         commit('removeToken');
         commit('changeLoggedInStatus');
         localStorage.clear();
+    },
+    async store({commit},user){
+        let response = await this.$axios.post('users', user)
+        console.log(response)
     }
 }
 const mutations = {

@@ -92,7 +92,7 @@ export default {
         to: "/pages/user",
       },
       {
-        icon: "mdi-account",
+        icon: "mdi-chart-timeline",
         title: "timeline",
         to: "/pages/timeline",
       },
@@ -103,7 +103,7 @@ export default {
       // },
       {
         title: "rcars",
-        icon: "mdi-clipboard",
+        icon: "mdi-registered-trademark",
         to: "/tables/registered-cars",
       },
       {
