@@ -5,7 +5,8 @@ const state = {
     carsNo:0,
     parking_visits:0,
     total_revenue:0,
-
+    existingCars:0,
+    users:[],
     loaded: false
 
 };
@@ -26,6 +27,8 @@ const actions = {
         commit('setCarNo', response.data.carsNo);
         commit('setParkingVisits', response.data.parkingVisits);
         commit('setTotalRevenue', response.data.revenue);
+        commit('setExistingCars', response.data.existingCars);
+commit('setUsers',response.data.users);
         commit('setLoaded', true);
     },
 };
@@ -38,7 +41,8 @@ const mutations = {
     setParkingVisits: (state, Visits) => (state.parking_visits = Visits),
     setTotalRevenue: (state, revenue) => (state.total_revenue = revenue),
     setCarNo: (state, carsNo) => (state.carsNo = carsNo),
-
+    setExistingCars:(state, ExistingCars) => (state.existingCars = ExistingCars),
+    setUsers:(state, users) => (state.users = users),
 
 };
 

@@ -179,30 +179,30 @@
         <base-material-stats-card
           color="orange"
           icon="mdi-sofa"
-          title="Bookings"
-          value="114"
+          title="Existing Cars"
+          :value="existingcars"
           sub-icon="mdi-alert"
           sub-icon-color="red"
           sub-text="Get More Space..."
         />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="12" v-if="user.role == 1">
         <base-material-card color="warning" class="px-5 py-3">
           <template v-slot:heading>
             <div class="display-2 font-weight-light">Employees Stats</div>
 
             <div class="subtitle-1 font-weight-light">
-              New employees on 15th September, 2016
+              New employees since last Update 
             </div>
           </template>
           <v-card-text>
-            <v-data-table :headers="headers" :items="items" />
+            <v-data-table :headers="headers" :items="users" />
           </v-card-text>
         </base-material-card>
       </v-col>
 
-      <v-col cols="12" md="6">
+      <!-- <v-col cols="12" md="6">
         <base-material-card class="px-5 py-3">
           <template v-slot:heading>
             <v-tabs
@@ -255,7 +255,7 @@
             </v-tab-item>
           </v-tabs-items>
         </base-material-card>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -271,7 +271,7 @@ export default {
       dailySalesChart: {
         data: {
           labels: ["M", "T", "W", "T", "F", "S", "S"],
-         // series: [[12, 17, 7, 17, 23, 18, 38]],
+          series: [[12, 17, 7, 17, 23, 18, 38]],
         },
         options: {
           lineSmooth: this.$chartist.Interpolation.cardinal({
@@ -324,7 +324,7 @@ export default {
           ],
           
           series: [
-         //   [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
+            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
           ],
         },
         options: {
@@ -332,7 +332,7 @@ export default {
             showGrid: false,
           },
           low: 0,
-          high: 10,
+          high: 100,
           chartPadding: {
             top: 0,
             right: 5,
@@ -363,24 +363,24 @@ export default {
         {
           sortable: false,
           text: "Name",
-          value: "name",
+          value: "empName",
         },
         {
           sortable: false,
-          text: "Salary",
-          value: "salary",
-          align: "right",
+          text: "Address",
+          value: "empAddress",
+          align: "left",
         },
         {
           sortable: false,
-          text: "Country",
-          value: "country",
-          align: "right",
+          text: "Email",
+          value: "empUserName",
+          align: "left",
         },
         {
-          sortable: false,
-          text: "City",
-          value: "city",
+          sortable: true,
+          text: "revenue this month",
+          value: `Invoices[0].sumInvoiceAmount`,
           align: "right",
         },
       ],
@@ -488,7 +488,12 @@ computed:{
       carNo:(state) => state.carsNo,
       visits:(state)=>state.parking_visits,
       revenue:(state)=>state.total_revenue,
+      existingcars:(state)=>state.existingCars,
+      users:(state)=>state.users,
       loaded:(state)=> state.loaded
+    }),
+        ...mapState("auth", {
+      user: (state) => state.user,
     }),
 },
   mounted() {
@@ -510,7 +515,6 @@ computed:{
       this.list[index] = !this.list[index];
     },
   },
-
   beforeCreate() {
     console.log(this.$store.state.auth.logged);
     if (this.$store.state.auth.logged) {
