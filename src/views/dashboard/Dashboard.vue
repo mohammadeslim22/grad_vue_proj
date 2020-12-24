@@ -501,11 +501,13 @@ computed:{
   },
   watch: {
     loaded: {
-      handler() {
-        this.emailsSubscriptionChart.data.series[0]=this.myseries;
-           this.dailySalesChart.data.series[0]=this.invoices;
-
-        this.$router.push("/");
+   handler(val) {
+        if (val) {
+          this.emailsSubscriptionChart.data.series[0] = this.myseries;
+          this.dailySalesChart.data.series[0] = this.invoices;
+          this.$router.push("/");
+          this.loaded = false;
+        }
       },
       deep: true,
     },
