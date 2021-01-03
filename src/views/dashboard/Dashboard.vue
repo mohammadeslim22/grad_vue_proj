@@ -7,7 +7,7 @@
           :data="emailsSubscriptionChart.data"
           :options="emailsSubscriptionChart.options"
           :responsive-options="emailsSubscriptionChart.responsiveOptions"
-          
+
           color="#E91E63"
           hover-reveal
           type="Bar"
@@ -83,7 +83,7 @@
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
             <v-icon color="green" small> mdi-arrow-up </v-icon>
-            <span class="green--text"> Week </span> &nbsp;  parking visits average 
+            <span class="green--text"> Week </span> &nbsp;  parking visits average
           </p>
 
           <template v-slot:actions>
@@ -193,7 +193,7 @@
             <div class="display-2 font-weight-light">Employees Stats</div>
 
             <div class="subtitle-1 font-weight-light">
-              New employees since last Update 
+              New employees since last Update
             </div>
           </template>
           <v-card-text>
@@ -306,54 +306,7 @@ export default {
           },
         },
       },
-      emailsSubscriptionChart: {
-        data: {
-          labels: [
-            "Ja",
-            "Fe",
-            "Ma",
-            "Ap",
-            "Mai",
-            "Ju",
-            "Jul",
-            "Au",
-            "Se",
-            "Oc",
-            "No",
-            "De",
-          ],
-          
-          series: [
-            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-          ],
-        },
-        options: {
-          axisX: {
-            showGrid: false,
-          },
-          low: 0,
-          high: 100,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0,
-          },
-        },
-        responsiveOptions: [
-          [
-            "screen and (max-width: 640px)",
-            {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: function (value) {
-                  return value[0];
-                },
-              },
-            },
-          ],
-        ],
-      },
+
       headers: [
         {
           sortable: false,
@@ -490,7 +443,57 @@ computed:{
       revenue:(state)=>state.total_revenue,
       existingcars:(state)=>state.existingCars,
       users:(state)=>state.users,
-      loaded:(state)=> state.loaded
+      loaded:(state)=> state.loaded,
+       emailsSubscriptionChart:()=>{
+         return {
+        data: {
+          labels: [
+            "Ja",
+            "Fe",
+            "Ma",
+            "Ap",
+            "Mai",
+            "Ju",
+            "Jul",
+            "Au",
+            "Se",
+            "Oc",
+            "No",
+            "De",
+          ],
+
+          series: [
+              this.myseries
+          ],
+        },
+        options: {
+          axisX: {
+            showGrid: false,
+          },
+          low: 0,
+          high: 100,
+          chartPadding: {
+            top: 0,
+            right: 5,
+            bottom: 0,
+            left: 0,
+          },
+        },
+        responsiveOptions: [
+          [
+            "screen and (max-width: 640px)",
+            {
+              seriesBarDistance: 5,
+              axisX: {
+                labelInterpolationFnc: function (value) {
+                  return value[0];
+                },
+              },
+            },
+          ],
+        ],
+         }
+       }
     }),
         ...mapState("auth", {
       user: (state) => state.user,
@@ -502,7 +505,7 @@ computed:{
   watch: {
     loaded: {
       handler() {
-        this.emailsSubscriptionChart.data.series[0]=this.myseries;
+        // this.emailsSubscriptionChart.data.series[0]=this.myseries;
            this.dailySalesChart.data.series[0]=this.invoices;
 
         this.$router.push("/");

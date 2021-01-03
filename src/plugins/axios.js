@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../store';
-const baseURL = window.location.protocol+"//"+window.location.hostname+":3000"+'/api/';
+const baseURL = window.location.protocol+"//3.129.57.86:3000"+'/api/';
 let api= axios.create({
     baseURL,
     headers:{
