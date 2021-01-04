@@ -3,11 +3,11 @@
     dashboard
     <v-row>
       <v-col cols="12" lg="4">
-        <base-material-chart-card v-if="loaded"
+        <base-material-chart-card
+          v-if="loaded"
           :data="emailsSubscriptionChart.data"
           :options="emailsSubscriptionChart.options"
           :responsive-options="emailsSubscriptionChart.responsiveOptions"
-
           color="#E91E63"
           hover-reveal
           type="Bar"
@@ -50,7 +50,8 @@
       </v-col>
 
       <v-col cols="12" lg="4">
-        <base-material-chart-card v-if="loaded"
+        <base-material-chart-card
+          v-if="loaded"
           :data="dailySalesChart.data"
           :options="dailySalesChart.options"
           color="success"
@@ -83,7 +84,8 @@
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
             <v-icon color="green" small> mdi-arrow-up </v-icon>
-            <span class="green--text"> Week </span> &nbsp;  parking visits average
+            <span class="green--text"> Week </span> &nbsp; parking visits
+            average
           </p>
 
           <template v-slot:actions>
@@ -96,7 +98,8 @@
       </v-col>
 
       <v-col cols="12" lg="4">
-        <base-material-chart-card v-if="loaded"
+        <base-material-chart-card
+          v-if="loaded"
           :data="dataCompletedTasksChart.data"
           :options="dataCompletedTasksChart.options"
           hover-reveal
@@ -126,7 +129,7 @@
           </template>
 
           <h3 class="card-title font-weight-light mt-2 ml-2">
-           Parking Visits Average
+            Parking Visits Average
           </h3>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
@@ -169,7 +172,7 @@
           color="success"
           icon="mdi-store"
           title="Revenue"
-          :value="`$`+revenue"
+          :value="`$` + revenue"
           sub-icon="mdi-calendar"
           sub-text="This year"
         />
@@ -182,7 +185,7 @@
           title="Existing Cars"
           :value="existingcars"
           sub-icon="mdi-alert"
-          sub-icon-color="red"
+          sub-icon-color="yellow"
           sub-text="Get More Space..."
         />
       </v-col>
@@ -268,25 +271,6 @@ export default {
 
   data() {
     return {
-      dailySalesChart: {
-        data: {
-          labels: ["M", "T", "W", "T", "F", "S", "S"],
-          series: [[12, 17, 7, 17, 23, 18, 38]],
-        },
-        options: {
-          lineSmooth: this.$chartist.Interpolation.cardinal({
-            tension: 0,
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
-        },
-      },
       dataCompletedTasksChart: {
         data: {
           labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
@@ -434,81 +418,102 @@ export default {
       },
     };
   },
-computed:{
+  computed: {
     ...mapState("statistics", {
       myseries: (state) => state.transactions,
-      invoices:(state) => state.invoices,
-      carNo:(state) => state.carsNo,
-      visits:(state)=>state.parking_visits,
-      revenue:(state)=>state.total_revenue,
-      existingcars:(state)=>state.existingCars,
-      users:(state)=>state.users,
-      loaded:(state)=> state.loaded,
-       emailsSubscriptionChart:()=>{
-         return {
-        data: {
-          labels: [
-            "Ja",
-            "Fe",
-            "Ma",
-            "Ap",
-            "Mai",
-            "Ju",
-            "Jul",
-            "Au",
-            "Se",
-            "Oc",
-            "No",
-            "De",
-          ],
+      invoices: (state) => state.invoices,
+      carNo: (state) => state.carsNo,
+      visits: (state) => state.parking_visits,
+      revenue: (state) => state.total_revenue,
+      existingcars: (state) => state.existingCars,
+      users: (state) => state.users,
+      loaded: (state) => state.loaded,
+      dailySalesChart: function(state){
+        return {
+          data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            series: [state.invoices],
+          },
+          options: {
+            lineSmooth: this.$chartist.Interpolation.cardinal({
+              tension: 0,
+            }),
+            low: 0,
+            high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+            chartPadding: {
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            },
+          },
+        };
+      },
+      emailsSubscriptionChart: (state) => {
+        return {
+          data: {
+            labels: [
+              "Ja",
+              "Fe",
+              "Ma",
+              "Ap",
+              "Mai",
+              "Ju",
+              "Jul",
+              "Au",
+              "Se",
+              "Oc",
+              "No",
+              "De",
+            ],
 
-          series: [
-              this.myseries
-          ],
-        },
-        options: {
-          axisX: {
-            showGrid: false,
+            series: [state.transactions],
           },
-          low: 0,
-          high: 100,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0,
+          options: {
+            axisX: {
+              showGrid: false,
+            },
+            low: 0,
+            high: 100,
+            chartPadding: {
+              top: 0,
+              right: 5,
+              bottom: 0,
+              left: 0,
+            },
           },
-        },
-        responsiveOptions: [
-          [
-            "screen and (max-width: 640px)",
-            {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: function (value) {
-                  return value[0];
+          responsiveOptions: [
+            [
+              "screen and (max-width: 640px)",
+              {
+                seriesBarDistance: 5,
+                axisX: {
+                  labelInterpolationFnc: function (value) {
+                    return value[0];
+                  },
                 },
               },
-            },
+            ],
           ],
-        ],
-         }
-       }
+        };
+      },
     }),
-        ...mapState("auth", {
+    ...mapState("auth", {
       user: (state) => state.user,
     }),
-},
+  },
   mounted() {
     this.$store.dispatch("statistics/index");
   },
   watch: {
     loaded: {
-      handler() {
-        // this.emailsSubscriptionChart.data.series[0]=this.myseries;
-           this.dailySalesChart.data.series[0]=this.invoices;
-
-        this.$router.push("/");
+      handler(val) {
+        if (val) {
+          // this.emailsSubscriptionChart.data.series[0] = this.myseries;
+          // this.dailySalesChart.data.series[0] = this.invoices;
+          this.$router.push("/");
+          this.loaded = false;
+        }
       },
       deep: true,
     },
@@ -523,7 +528,7 @@ computed:{
     if (this.$store.state.auth.logged) {
       //  this.$router.push("/");
     } else {
-      console.log("ليش بتخش هان يا حيوان ")
+      console.log("ليش بتخش هان يا حيوان ");
       this.$router.push("/login");
     }
   },
