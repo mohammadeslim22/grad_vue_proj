@@ -6,12 +6,12 @@
   >
     <template v-slot:heading>
       <chartist
-        :data="data"
-        :event-handlers="eventHandlers"
-        :options="options"
-        :ratio="ratio"
-        :responsive-options="responsiveOptions"
-        :type="type"
+        :data="c.data"
+        :event-handlers="c.eventHandlers"
+        :options="c.options"
+        :ratio="c.ratio"
+        :responsive-options="c.responsiveOptions"
+        :type="c.type"
         style="max-height: 150px;"
       />
     </template>
@@ -69,6 +69,16 @@ import { mapState } from "vuex";
       myseries: (state) => state.transactions,
       loaded:(state)=> state.loaded
     }),
+    c:function(){
+      return {
+        data:this.data,
+        eventHandlers: this.eventHandlers,
+        options : this.options,
+        ratio:this.ratio,
+        responsiveOptions:this.responsiveOptions,
+        type:this.type
+      }
+    }
 },
   watch: {
     loaded: {
